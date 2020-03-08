@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="300" height="300"></canvas>
+    <button onclick="changeColor('red')">red</button>
+    <button onclick="changeColor('blue')">blue</button>
+    <button onclick="clearAll()">clear</button>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas')
+    let context = canvas.getContext('2d')
+
+    function draw(color='black'){
+        canvas.onmousedown = function(e){
+            let event  = e || window.event 
+            console.log(e)
+            let x1 = event.clientX
+            let y1 = event.clientY
+            context.beginPath()
+            context.moveTo(x1,y1)
+            canvas.onmousemove = function(e){
+                let event = e || window.event
+                let x2 = event.clientX
+                let y2 = event.clientY
+                context.lineTo(x2,y2)
+                context.lineWidth = 5
+                context.strokeStyle = color
+                context.stroke()
+            }
+        }
+
+        document.onmouseup = function(){
+            canvas.onmousemove = null
+        }
+    }
+
+    draw()
+
+    function changeColor(color){
+        let lineColor = ''
+        switch(color){
+            case 'red':
+                lineColor = 'red';
+                break;
+            case 'blue':
+                lineColor = 'blue';
+                break;
+            default:
+                lineColor = 'black';
+                break;
+        }
+
+        draw(lineColor)
+    }
+
+    function clearAll(){
+        context.clearRect(0,0,canvas.width,canvas.height)
+    }
+</script>
+</html> 
